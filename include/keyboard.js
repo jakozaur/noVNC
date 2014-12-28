@@ -1,4 +1,4 @@
-var kbdUtil = (function() {
+kbdUtil = (function() {
     "use strict";
 
     function substituteCodepoint(cp) {
@@ -292,7 +292,7 @@ var kbdUtil = (function() {
 // - marks each event with an 'escape' property if a modifier was down which should be "escaped"
 // - generates a "stall" event in cases where it might be necessary to wait and see if a keypress event follows a keydown
 // This information is collected into an object which is passed to the next() function. (one call per event)
-function KeyEventDecoder(modifierState, next) {
+KeyEventDecoder = function (modifierState, next) {
     "use strict";
     function sendAll(evts) {
         for (var i = 0; i < evts.length; ++i) {
@@ -379,7 +379,7 @@ function KeyEventDecoder(modifierState, next) {
 // so when used with the '2' key, Ctrl-Alt counts as a char modifier (and should be escaped), but when used with 'D', it does not.
 // The only way we can distinguish these cases is to wait and see if a keypress event arrives
 // When we receive a "stall" event, wait a few ms before processing the next keydown. If a keypress has also arrived, merge the two
-function VerifyCharModifier(next) {
+VerifyCharModifier = function (next) {
     "use strict";
     var queue = [];
     var timer = null;
@@ -436,7 +436,7 @@ function VerifyCharModifier(next) {
 // in some cases, a single key may produce multiple keysyms, so the corresponding keyup event must release all of these chars
 // key repeat events should be merged into a single entry.
 // Because we can't always identify which entry a keydown or keyup event corresponds to, we sometimes have to guess
-function TrackKeyState(next) {
+TrackKeyState = function (next) {
     "use strict";
     var state = [];
 
@@ -520,7 +520,7 @@ function TrackKeyState(next) {
 
 // Handles "escaping" of modifiers: if a char modifier is used to produce a keysym (such as AltGr-2 to generate an @),
 // then the modifier must be "undone" before sending the @, and "redone" afterwards.
-function EscapeModifiers(next) {
+EscapeModifiers = function (next) {
     "use strict";
     return function(evt) {
         if (evt.type !== 'keydown' || evt.escape === undefined) {

@@ -7,7 +7,7 @@
 /*jslint white: false */
 /*global console */
 
-var Base64 = {
+Base64 = {
     /* Convert data (an array of integers) to a Base64 string. */
     toBase64Table : 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/='.split(''),
     base64Pad     : '=',
@@ -85,7 +85,7 @@ var Base64 = {
                 console.error("Illegal character code " + data.charCodeAt(i) + " at position " + i);
                 continue;
             }
-          
+
             // Collect data into leftdata, update bitcount
             leftdata = (leftdata << 6) | c;
             leftbits += 6;

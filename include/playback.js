@@ -8,11 +8,11 @@
 /*jslint browser: true, white: false */
 /*global Util, VNC_frame_data, finish */
 
-var rfb, mode, test_state, frame_idx, frame_length,
-    iteration, iterations, istart_time,
+//var rfb, mode, test_state, frame_idx, frame_length,
+//    iteration, iterations, istart_time,
 
     // Pre-declarations for jslint
-    send_array, next_iteration, queue_next_packet, do_packet;
+//    send_array, next_iteration, queue_next_packet, do_packet;
 
 // Override send_array
 send_array = function (arr) {
@@ -26,7 +26,7 @@ next_iteration = function () {
     } else {
         rfb.disconnect();
     }
-    
+
     if (test_state !== 'running') { return; }
 
     iteration += 1;
@@ -99,4 +99,3 @@ do_packet = function () {
 
     queue_next_packet();
 };
-

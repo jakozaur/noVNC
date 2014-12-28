@@ -11,7 +11,8 @@
 /*global Util, window, document */
 
 // Globals defined here
-var WebUtil = {}, $D;
+WebUtil = {};
+$D = {};
 
 /*
  * Simple DOM selector by ID

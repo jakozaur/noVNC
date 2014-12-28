@@ -13,7 +13,7 @@
 /*jslint white: false, browser: true */
 /*global window, Util, Display, Keyboard, Mouse, Websock, Websock_native, Base64, DES */
 
-var RFB;
+RFB = {};
 
 (function () {
     "use strict";

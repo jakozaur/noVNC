@@ -8,7 +8,8 @@
 /*jslint browser: true, white: false */
 /*global window, Util */
 
-var Keyboard, Mouse;
+Keyboard = {};
+Mouse = {};
 
 (function () {
     "use strict";

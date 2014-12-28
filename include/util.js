@@ -10,7 +10,7 @@
 /*global window, console, document, navigator, ActiveXObject, INCLUDE_URI */
 
 // Globals defined here
-var Util = {};
+Util = {};
 
 
 /*

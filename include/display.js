@@ -9,7 +9,7 @@
 /*jslint browser: true, white: false */
 /*global Util, Base64, changeCursor */
 
-var Display;
+Display = {};
 
 (function () {
     "use strict";
