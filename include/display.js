@@ -522,9 +522,9 @@ Display = {};
             }
 
             this._scale = factor;
-            var x = canvas.width - (canvas.width * factor);
-            var y = canvas.height - (canvas.height * factor);
-            canvas.style[transform_prop] = 'scale(' + this._scale + ') translate(-' + x + 'px, -' + y + 'px)';
+            var x = (canvas.width - (canvas.width * factor)) / 2;
+            var y = (canvas.height - (canvas.height * factor)) / 2;
+            canvas.style[transform_prop] = 'translate(-' + x + 'px, -' + y + 'px) scale(' + this._scale + ')';
         },
 
         _setFillColor: function (color) {

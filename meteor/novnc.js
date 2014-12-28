@@ -2,6 +2,7 @@ NoVNC = {};
 
 Template.noVNC.rendered = function () {
   var self = this;
+  var canvas = self.find('canvas');
 
   this.data = _.extend({
     id: 'NoVNC_canvas',
@@ -20,6 +21,10 @@ Template.noVNC.rendered = function () {
     path: 'websockify'
 
   }, this.data || {});
+
+  // TODO: Add if to fit it to width
+  console.log("parent width", canvas.parentNode.clientWidth);
+  this.data.width = canvas.parentNode.clientWidth;
   //this.id = this.id || 'NoVNC_canvas';
   // Initialization code
 
@@ -39,23 +44,25 @@ Template.noVNC.rendered = function () {
   }
 
   function fbResize (rfb, width, height) {
+    // TODO: Add if
     var scale = self.data.width / width;
     //rfb.get_display().resizeAndScale(width, height, scale);
     console.log("Resize", self.data.width, self.data.height, width, height);
     var canvas = self.find('canvas');
     console.log("Canvas", canvas.width, canvas.height);
-    //rfb.get_display().resize(self.data.width, self.data.height);
+    rfb.get_display().resize(width, height);
+    console.log("Canvas", canvas.width, canvas.height);
     rfb.get_display().set_scale(scale);
-
+    rfb.get_mouse().set_scale(scale);
   }
 
-  rfb = new RFB({'target':       this.find('canvas'),
-                 'encrypt':      this.data.encrypt,
-                 'repeaterID':   this.data.repeaterId,
-                 'true_color':   this.data.trueColor,
-                 'local_cursor': this.data.localCursor,
-                 'shared':       this.data.shared,
-                 'view_only':    this.data.viewOnly,
+  rfb = new RFB({'target':       canvas,
+                 'encrypt':      self.data.encrypt,
+                 'repeaterID':   self.data.repeaterId,
+                 'true_color':   self.data.trueColor,
+                 'local_cursor': self.data.localCursor,
+                 'shared':       self.data.shared,
+                 'view_only':    self.data.viewOnly,
                  'onUpdateState':  updateState,
                  'onXvpInit':    xvpInit,
                  'onFBResize':   fbResize,

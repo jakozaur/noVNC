@@ -175,6 +175,10 @@ Mouse = {};
     };
 
     Mouse.prototype = {
+        set_scale: function (scale) {
+            this._scale = scale;
+        },
+
         // private methods
         _captureMouse: function () {
             // capturing the mouse ensures we get the mouseup event
