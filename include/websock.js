@@ -48,7 +48,7 @@ if (window.WebSocket && !window.WEB_SOCKET_FORCE_FLASH) {
 
 
 Websock = function () {
-    "use strict";
+    // "use strict";
 
     this._websocket = null;  // WebSocket object
     this._rQ = [];           // Receive queue
@@ -65,10 +65,10 @@ Websock = function () {
         'close': function () {},
         'error': function () {}
     };
-}
+};
 
 (function () {
-    "use strict";
+    //"use strict";
     Websock.prototype = {
         // Getters and Setters
         get_sQ: function () {

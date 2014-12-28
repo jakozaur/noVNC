@@ -200,9 +200,9 @@ JSUnzip = function () {
  * reading more then 8 bits (needed in some zlib streams)
  */
 
-"use strict";
+//"use strict";
 
-function TINF() {
+TINF = function () {
 
 this.OK = 0;
 this.DATA_ERROR = (-3);

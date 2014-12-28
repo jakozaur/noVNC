@@ -4,7 +4,7 @@
  * Licensed under MPL 2.0 (see LICENSE.txt)
  */
 
-"use strict";
+//"use strict";
 /*jslint browser: true, white: false */
 /*global Util, VNC_frame_data, finish */
 
