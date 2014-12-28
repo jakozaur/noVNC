@@ -1,6 +1,22 @@
-## noVNC: HTML5 VNC Client
+## Meteor package of noVNC: HTML5 VNC Client
 
-[![Build Status](https://travis-ci.org/kanaka/noVNC.svg?branch=master)](https://travis-ci.org/kanaka/noVNC)
+Quickstart:
+
+* Run a proxy to existing client `./utils/launch.sh --vnc localhost:5901`.
+* Put template in your code `{{> noVnc}}`.
+
+Usage:
+
+* Global variable `NoVnc` got reactive variable `state` and [`rfb` object](https://github.com/jakozaur/noVNC/blob/master/include/rfb.js) to control VNC connection, check it methods.
+* See template argument in top of [`meteor/novnc.js`](https://github.com/jakozaur/noVNC/blob/master/meteor/novnc.js).
+
+Limitations:
+
+* Alpha version.
+* Only one noVNC on page.
+* You need to disconnect yourself (e.g. when you navigate to different page).
+
+## Original description
 
 ### Description
 
