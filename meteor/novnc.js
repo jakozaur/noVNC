@@ -1,15 +1,17 @@
-NoVNC = {};
+NoVnc = {};
 
-Template.noVNC.rendered = function () {
+Template.noVnc.rendered = function () {
   var self = this;
   var canvas = self.find('canvas');
 
   self.data = _.extend({
-    id: 'NoVNC_canvas',
-    width: 400, // 1366,
-    height: 300, //,
+    id: 'NoVnc-canvas',
     inheritWidthFromParent: true,
     fitTo: 'width', // 'width', 'height' or undefined
+    connectOnCreate: true,
+    width: 400,
+    height: 300,
+
     encrypt: (window.location.protocol === "https:"),
     repeaterId: '',
     trueColor: true,
@@ -20,9 +22,7 @@ Template.noVNC.rendered = function () {
     host: 'localhost',
     port: 6080,
     password: 'empty',
-    path: 'websockify',
-
-    connectOnCreate: true
+    path: 'websockify'
 
   }, self.data || {});
 
@@ -30,10 +30,12 @@ Template.noVNC.rendered = function () {
     self.data.width = canvas.parentNode.clientWidth;
   }
 
-  var rfb;
-
+  NoVnc.state = new ReactiveVar({state: 'initialized', msg: ''})
   function updateState (rfb, state, oldstate, msg) {
-    console.log("State ", state, "msg", msg);
+    NoVnc.state.set({
+      state: state,
+      msg: msg
+    });
   }
 
   function passwordRequired (rfb) {
@@ -53,35 +55,37 @@ Template.noVNC.rendered = function () {
     rfb.get_mouse().set_scale(scale);
   }
 
-  rfb = new RFB({'target':         canvas,
-                 'focusContainer': canvas,
-                 'encrypt':        self.data.encrypt,
-                 'repeaterID':     self.data.repeaterId,
-                 'true_color':     self.data.trueColor,
-                 'local_cursor':   self.data.localCursor,
-                 'shared':         self.data.shared,
-                 'view_only':      self.data.viewOnly,
-                 'onUpdateState':  updateState,
-                 'onFBResize':     fbResize,
-                 'onPasswordRequired':  passwordRequired});
+  var rfb = new RFB({
+    target:              canvas,
+    focusContainer:      canvas,
+    encrypt:             self.data.encrypt,
+    repeaterID:          self.data.repeaterId,
+    true_color:          self.data.trueColor,
+    local_cursor:        self.data.localCursor,
+    shared:              self.data.shared,
+    view_only:           self.data.viewOnly,
+    onUpdateState:       updateState,
+    onFBResize:          fbResize,
+    onPasswordRequired:  passwordRequired
+  });
 
   if (self.data.connectOnCreate) {
     rfb.connect(self.data.host, self.data.port,
       self.data.password, self.data.path);
   }
 
-  NoVNC.rfb = rfb;
-  NoVNC.options = self.data;
+  NoVnc.rfb = rfb;
+  NoVnc.options = self.data;
 };
 
-Template.noVNC.helpers({
+Template.noVnc.helpers({
   canvasId: function () {
-    return this.id || 'NoVNC_canvas';
+    return this.id || 'NoVnc-canvas';
   },
   height: function () {
-    return this.data && this.data.height || 200; //768;
+    return this.data && this.data.height || 200; // Some dummy value
   },
   width: function () {
-    return this.data && this.data.width || 200; //1366;
+    return this.data && this.data.width || 200; // Some dummy value;
   }
 });
