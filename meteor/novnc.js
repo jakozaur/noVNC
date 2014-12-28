@@ -1,14 +1,21 @@
-NoVnc = {};
+NoVnc = {
+  state: new ReactiveVar({state: 'stopped', msg: ''})
+};
 
 Template.noVnc.rendered = function () {
   var self = this;
-  var canvas = self.find('canvas');
+  // prevent double render
+  if (self.wasRendered) {
+    return;
+  } else {
+    self.wasRendered = true;
+  }
 
   self.data = _.extend({
     id: 'NoVnc-canvas',
     inheritWidthFromParent: true,
     fitTo: 'width', // 'width', 'height' or undefined
-    connectOnCreate: true,
+    connectOnRendered: true,
     width: 400,
     height: 300,
 
@@ -21,16 +28,17 @@ Template.noVnc.rendered = function () {
 
     host: 'localhost',
     port: 6080,
-    password: 'empty',
+    password: '',
     path: 'websockify'
 
   }, self.data || {});
+  NoVnc.options = self.data;
 
+  var canvas = self.find('canvas');
   if (self.data.inheritWidthFromParent) {
     self.data.width = canvas.parentNode.clientWidth;
   }
 
-  NoVnc.state = new ReactiveVar({state: 'initialized', msg: ''})
   function updateState (rfb, state, oldstate, msg) {
     NoVnc.state.set({
       state: state,
@@ -55,7 +63,7 @@ Template.noVnc.rendered = function () {
     rfb.get_mouse().set_scale(scale);
   }
 
-  var rfb = new RFB({
+  NoVnc.rfb = new RFB({
     target:              canvas,
     focusContainer:      canvas,
     encrypt:             self.data.encrypt,
@@ -69,13 +77,10 @@ Template.noVnc.rendered = function () {
     onPasswordRequired:  passwordRequired
   });
 
-  if (self.data.connectOnCreate) {
-    rfb.connect(self.data.host, self.data.port,
+  if (self.data.connectOnRendered) {
+    NoVnc.rfb.connect(self.data.host, self.data.port,
       self.data.password, self.data.path);
   }
-
-  NoVnc.rfb = rfb;
-  NoVnc.options = self.data;
 };
 
 Template.noVnc.helpers({
