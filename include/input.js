@@ -305,6 +305,9 @@ Mouse = {};
                 this._notify(e);
             }
 
+            // A hack to get keyboard inputs
+            this._target.focus();
+
             var evt = (e ? e : window.event);
             var pos = Util.getEventPosition(e, this._target, this._scale);
             if (this._onMouseMove) {

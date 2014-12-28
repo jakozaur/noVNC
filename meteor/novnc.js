@@ -8,6 +8,8 @@ Template.noVNC.rendered = function () {
     id: 'NoVNC_canvas',
     width: 400, // 1366,
     height: 300, //,
+    inheritWidthFromParent: true,
+    fitTo: 'width', // 'width', 'height' or undefined
     encrypt: (window.location.protocol === "https:"),
     repeaterId: '',
     trueColor: true,
@@ -17,16 +19,14 @@ Template.noVNC.rendered = function () {
 
     host: 'localhost',
     port: 6080,
-    password: 'empty',
+    password: '',
     path: 'websockify'
 
   }, this.data || {});
 
-  // TODO: Add if to fit it to width
-  console.log("parent width", canvas.parentNode.clientWidth);
-  this.data.width = canvas.parentNode.clientWidth;
-  //this.id = this.id || 'NoVNC_canvas';
-  // Initialization code
+  if (this.data.inheritWidthFromParent) {
+    this.data.width = canvas.parentNode.clientWidth;
+  }
 
   var rfb;
 
@@ -44,28 +44,28 @@ Template.noVNC.rendered = function () {
   }
 
   function fbResize (rfb, width, height) {
-    // TODO: Add if
-    var scale = self.data.width / width;
-    //rfb.get_display().resizeAndScale(width, height, scale);
-    console.log("Resize", self.data.width, self.data.height, width, height);
-    var canvas = self.find('canvas');
-    console.log("Canvas", canvas.width, canvas.height);
+    var scale = 1.0;
+    if (self.data.fitTo == 'width') {
+      scale = self.data.width / width;
+    } else {
+      scale = self.data.height / height;
+    }
     rfb.get_display().resize(width, height);
-    console.log("Canvas", canvas.width, canvas.height);
     rfb.get_display().set_scale(scale);
     rfb.get_mouse().set_scale(scale);
   }
 
-  rfb = new RFB({'target':       canvas,
-                 'encrypt':      self.data.encrypt,
-                 'repeaterID':   self.data.repeaterId,
-                 'true_color':   self.data.trueColor,
-                 'local_cursor': self.data.localCursor,
-                 'shared':       self.data.shared,
-                 'view_only':    self.data.viewOnly,
+  rfb = new RFB({'target':         canvas,
+                 'focusContainer': canvas,
+                 'encrypt':        self.data.encrypt,
+                 'repeaterID':     self.data.repeaterId,
+                 'true_color':     self.data.trueColor,
+                 'local_cursor':   self.data.localCursor,
+                 'shared':         self.data.shared,
+                 'view_only':      self.data.viewOnly,
                  'onUpdateState':  updateState,
-                 'onXvpInit':    xvpInit,
-                 'onFBResize':   fbResize,
+                 'onXvpInit':      xvpInit,
+                 'onFBResize':     fbResize,
                  'onPasswordRequired':  passwordRequired});
   rfb.connect(this.data.host, this.data.port, this.data.password,
     this.data.path);
