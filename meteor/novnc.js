@@ -4,7 +4,7 @@ Template.noVNC.rendered = function () {
   var self = this;
   var canvas = self.find('canvas');
 
-  this.data = _.extend({
+  self.data = _.extend({
     id: 'NoVNC_canvas',
     width: 400, // 1366,
     height: 300, //,
@@ -19,20 +19,18 @@ Template.noVNC.rendered = function () {
 
     host: 'localhost',
     port: 6080,
-    password: '',
-    path: 'websockify'
+    password: 'empty',
+    path: 'websockify',
 
-  }, this.data || {});
+    connectOnCreate: true
 
-  if (this.data.inheritWidthFromParent) {
-    this.data.width = canvas.parentNode.clientWidth;
+  }, self.data || {});
+
+  if (self.data.inheritWidthFromParent) {
+    self.data.width = canvas.parentNode.clientWidth;
   }
 
   var rfb;
-
-  function xvpInit (ver) {
-    // No-op
-  }
 
   function updateState (rfb, state, oldstate, msg) {
     console.log("State ", state, "msg", msg);
@@ -64,11 +62,16 @@ Template.noVNC.rendered = function () {
                  'shared':         self.data.shared,
                  'view_only':      self.data.viewOnly,
                  'onUpdateState':  updateState,
-                 'onXvpInit':      xvpInit,
                  'onFBResize':     fbResize,
                  'onPasswordRequired':  passwordRequired});
-  rfb.connect(this.data.host, this.data.port, this.data.password,
-    this.data.path);
+
+  if (self.data.connectOnCreate) {
+    rfb.connect(self.data.host, self.data.port,
+      self.data.password, self.data.path);
+  }
+
+  NoVNC.rfb = rfb;
+  NoVNC.options = self.data;
 };
 
 Template.noVNC.helpers({
