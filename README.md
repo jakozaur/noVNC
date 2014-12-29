@@ -7,7 +7,8 @@ Quickstart:
 
 Usage:
 
-* Global variable `NoVnc` got reactive variable `state` and [`rfb` object](https://github.com/jakozaur/noVNC/blob/master/include/rfb.js) to control VNC connection, check it methods.
+* Global variable `NoVnc` has reactive variables `size` and `state`.
+* `NoVnc` also has [`rfb` object](https://github.com/jakozaur/noVNC/blob/master/include/rfb.js) to control VNC connection, check source for methods.
 * See template argument in top of [`meteor/novnc.js`](https://github.com/jakozaur/noVNC/blob/master/meteor/novnc.js).
 
 Limitations:

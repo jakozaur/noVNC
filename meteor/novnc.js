@@ -1,5 +1,6 @@
 NoVnc = {
-  state: new ReactiveVar({state: 'stopped', msg: ''})
+  state: new ReactiveVar({state: 'stopped', msg: ''}),
+  size: new ReactiveVar({})
 };
 
 Template.noVnc.rendered = function () {
@@ -38,6 +39,7 @@ Template.noVnc.rendered = function () {
   if (self.data.inheritWidthFromParent) {
     self.data.width = canvas.parentNode.clientWidth;
   }
+  NoVnc.size.set({width: self.data.width, height: self.data.height});
 
   function updateState (rfb, state, oldstate, msg) {
     NoVnc.state.set({
@@ -61,6 +63,7 @@ Template.noVnc.rendered = function () {
     rfb.get_display().resize(width, height);
     rfb.get_display().set_scale(scale);
     rfb.get_mouse().set_scale(scale);
+    NoVnc.size.set({width: width * scale, height: height * scale});
   }
 
   NoVnc.rfb = new RFB({
