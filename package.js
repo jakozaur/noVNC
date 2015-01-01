@@ -7,7 +7,7 @@ var where = 'client';  // where to install: 'client' or 'server'. For both, pass
 Package.describe({
   name: packageName,
   summary: "noVNC - VNC client using HTML5 (Web Sockets, Canvas) with encryption (wss://) support. ",
-  version: '0.5.0_2', // noVNC 0.5.0
+  version: '0.5.0_3', // noVNC 0.5.0
   git: 'https://github.com/jakozaur/noVNC.git'
 });
 

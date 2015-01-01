@@ -86,6 +86,10 @@ Template.noVnc.rendered = function () {
   }
 };
 
+Template.noVnc.destroyed = function () {
+  NoVnc.rfb.disconnect();
+}
+
 Template.noVnc.helpers({
   canvasId: function () {
     return this.id || 'NoVnc-canvas';
