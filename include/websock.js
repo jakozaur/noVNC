@@ -36,7 +36,7 @@ if (window.WebSocket && !window.WEB_SOCKET_FORCE_FLASH) {
     Websock_native = false;
 }
 
-function Websock() {
+Websock = function() {
     "use strict";
 
     this._websocket = null;  // WebSocket object
