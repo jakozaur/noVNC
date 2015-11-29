@@ -119,9 +119,9 @@ module.exports = function(config) {
       'include/input.js',
       'include/websock.js',
       'include/rfb.js',
-      'include/jsunzip.js',
       'include/des.js',
       'include/display.js',
+      'include/inflator.js',
       'tests/test.*.js'
     ],
 
@@ -178,14 +178,17 @@ module.exports = function(config) {
 
     // Increase timeout in case connection is slow/we run more browsers than possible
     // (we currently get 3 for free, and we try to run 7, so it can take a while)
-    captureTimeout: 240000
+    captureTimeout: 240000,
+
+    // similarly to above
+    browserNoActivityTimeout: 100000,
   };
 
   if (useSauce) {
     my_conf.captureTimeout = 0; // use SL timeout
     my_conf.sauceLabs = {
       testName: 'noVNC Tests (all)',
-      startConnect: true,
+      startConnect: false,
       tunnelIdentifier: process.env.TRAVIS_JOB_NUMBER
     };
   }

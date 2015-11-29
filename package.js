@@ -29,6 +29,7 @@ Package.onUse(function (api) {
     'include/input.js',
     'include/display.js',
     'include/jsunzip.js',
+    'include/inflator.js',
     'include/rfb.js',
     'include/keysym.js',
 
